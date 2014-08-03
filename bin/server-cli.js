@@ -11,13 +11,15 @@ var basePath = process.cwd(),
     baseName,
     filePath,
     themePath = __dirname + '/../node_modules/reveal.js/css/theme',
-    theme = 'default';
+    theme = 'default',
+    title = 'Presentation';
 
 program
     .version(pkg.version)
     .usage('<slides.md> [options]')
     .option('-p, --port [port]', 'Port')
     .option('-t, --theme [theme]', 'Theme')
+    .option('-tt, --title [title]', 'Title')
     .option('-r, --print [filename]', 'Print')
     .option('-s, --separator [separator]', 'Slide separator')
     .option('-v, --verticalSeparator [vertical separator]', 'Vertical slide separator')
@@ -65,4 +67,4 @@ theme = glob.sync('*.css', {
     return path.basename(themePath).replace(path.extname(themePath), '')
 }).indexOf(program.theme) !== -1 ? program.theme : theme;
 
-server.start(basePath, baseName, program.port, theme, program.separator, program.verticalSeparator, program.print);
+server.start(basePath, baseName, program.port, theme, program.title, program.separator, program.verticalSeparator, program.print);

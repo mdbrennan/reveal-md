@@ -24,6 +24,7 @@ var opts = {
     template: fs.readFileSync(serverBasePath + '/template/reveal.html').toString(),
     templateListing: fs.readFileSync(serverBasePath + '/template/listing.html').toString(),
     theme: 'default',
+    title: 'Presentation',
     separator: '^\n---\n$',
     verticalSeparator: '^\n----\n$'
 };
@@ -36,12 +37,15 @@ app.configure(function() {
     });
 });
 
-var startMarkdownServer = function(basePath, initialMarkdownPath, port, theme, separator, verticalSeparator, printFile) {
+var startMarkdownServer = function(basePath, initialMarkdownPath, port, theme, title, separator, verticalSeparator, printFile) {
     var sourceFile;
+
+    console.log(title);
 
     opts.userBasePath = basePath;
     opts.port = port || opts.port;
     opts.theme = theme || opts.theme;
+    opts.title = title || opts.title;
     opts.separator = separator || opts.separator;
     opts.verticalSeparator = verticalSeparator || opts.verticalSeparator;
     opts.printMode = typeof printFile !== 'undefined' && printFile || opts.printMode,
@@ -125,6 +129,7 @@ var render = function(res, markdown) {
 
     res.send(Mustache.to_html(opts.template, {
         theme: opts.theme,
+        title: opts.title,
         slides: slides
     }));
 };
@@ -140,6 +145,7 @@ var generateMarkdownListing = function(userBasePath) {
 
     return Mustache.to_html(opts.templateListing, {
         theme: opts.theme,
+        title: opts.title,
         listing: list.join('<br>')
     });
 };
